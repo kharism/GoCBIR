@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <script src="/assets/jquery-2.1.0.js"></script>
+        <script src="/assets/bootstrap.js"></script>
+        <link rel="stylesheet" href="/assets/bootstrap.css"/>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Hello</h1>
+            <input type="text" id="nn"/>
+            <div class="row" id="mainpanel">
+                
+                
+            </div>
+            <div id="paging">
+                {{range $val:=loop}}
+                <span onClick="Paging({{$val}})">{{$val}}</span>
+                {{end}}
+            </div>
+        </div>
+        <div id="similarImage" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel">Similar Image</h4>
+                                </div>
+                                <div class="modal-body" id="similarResults">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                        </div>
+                </div>
+        </div>
+    </body>
+    <script>
+        
+        function FindSimilar(id){
+            if($("#nn").val()!=""){
+                $("#similarResults").html("")
+                $.get("/similar/"+id+"/"+$("#nn").val(),function(data){
+                    k = eval(data)
+                    //console.log(k);
+                    
+                    for(i in k){
+                        console.log(k[i]);
+                        $("#similarResults").append("<img src=\"./"+k[i]+"\"/>")
+                    }
+                    $("#similarImage").modal();
+                })
+            }            
+        }
+        function Paging(i){
+            $.get("/paging/"+i,function(data){$("#mainpanel").html(data)})
+        }
+        Paging(0)
+    </script>
+</html>

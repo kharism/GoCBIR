@@ -1,0 +1,5 @@
+{{range $id,$val:=.}}
+                    <div style="float:left;width:20%" >
+                        <img src="./{{$val.Filename}}" onClick="FindSimilar({{$val.Index}})">
+                    </div>
+                {{end}}
